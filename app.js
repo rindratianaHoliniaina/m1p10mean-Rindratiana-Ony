@@ -1,3 +1,4 @@
+
 const express= require('express');
 const app= express();
 
@@ -5,9 +6,10 @@ const bodyParser=require('body-parser');
 
 
 const mongoose = require('mongoose');
-//const url = 'mongodb://127.0.0.1:27017/mean1' 
+//const url = 'mongodb://127.0.0.1:27017/tpandroid' 
 //mongoose.set('strictQuery', false);
 mongoose.set('strictQuery', false)
+//const url = 'mongodb+srv://user-rindra:motdepasse1234@cluster0.lf4uyt2.mongodb.net/?retryWrites=true&w=majority';
 const url = 'mongodb+srv://mongouser:mongouser@cluster0.ovzc44v.mongodb.net/?retryWrites=true&w=majority';
 //const url= 'mongodb+srv://mongouser:mongouser@cluster0.vys0xda.mongodb.net/?retryWrites=true&w=majority'
 mongoose.connect(url, { useNewUrlParser: true }) 
@@ -25,11 +27,13 @@ mongoose.connect(url, { useNewUrlParser: true })
 app.use(bodyParser.urlencoded({extended: false})); //ref miparse zavatra avy amin form no mampiasa an'ity dia tsy ilaina eto
 app.use(bodyParser.json()); //refa miparse req post amin api
 
-//get routes
-const userRoutes= require('./routes/user');
+//routes
+const utilisateurRoutes= require('./routes/utilisateur');
+const categorieRoutes= require('./routes/categorie');
+const elementRoutes= require('./routes/element');
+const provinceRoutes= require('./routes/province');
 const depotVoitureRoutes= require('./routes/depotVoiture');
-const reparationsRoutes= require('./routes/reparation');
-//const donneeGarageRoutes= require('./routes/donneeGarage');
+
 
 
 // cors
@@ -59,10 +63,12 @@ app.use((req,res,next) => {
 
 //use routes
 //otrany hoe filter , ze /products rehetre dia makany amle router
-app.use('/users',userRoutes);
-app.use('/depotVoiture',depotVoitureRoutes);reparationsRoutes
-app.use('/reparation',reparationsRoutes);
-
+//use routes
+app.use('/utilisateur',utilisateurRoutes);
+app.use('/categorie',categorieRoutes);
+app.use('/element',elementRoutes);
+app.use('/province',provinceRoutes);
+app.use('/depotVoiture',depotVoitureRoutes);
 // de haut en bas ny faakianle programa anle code 
 // dia raha tsy nahita nifanaraka teo ambony izy dia maketo ambany
 app.use((req,res,next) =>
@@ -122,7 +128,7 @@ app.use((error,req,res,next) =>
 // )
 
 const isProduction = process.env.NODE_ENV === 'production'
-const port = isProduction ? process.env.PORT : 7500;
+const port = isProduction ? process.env.PORT : 3000;
 app.listen(port,function()
     {
         console.log(`listening on ${port}`);

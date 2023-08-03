@@ -3,13 +3,11 @@ const mongoose = require('mongoose');
 const userSchema= mongoose.Schema(
     {
         _id: mongoose.Schema.Types.ObjectId,
-        nom: String,
-        prenom: String,
+        name: String,
         email: String,
-        mdp:String,
-        typeUser:Number
+        password:String
     }
 );
 
 //Product= le anarana iantsoana anle model refa ampiasa anazy ao amle projet
-module.exports = mongoose.model('User',userSchema);
+// module.exports = mongoose.model('User',userSchema);
