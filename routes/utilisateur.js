@@ -60,29 +60,61 @@ router.use(bodyParser.urlencoded({ extended: false }));
 // }));
 
 //Connexion utilisateur 
-//http://localhost:3000/utilisateur/login
+//http://localhost:3000/utilisateur/login // tsy mety ty fa tsy mamerina anle bodyresult
 // {
 //   "email" : "ony@gmail.com",
 //   "password" : "ony13"
 // }
-router.post('/login', async (req, res) => {
-    const {email, password } = req.body;
-    try {
-      const user = await Utilisateur.findOne({email});
-      if (!user) {
-        return res.status(404).json({ message: 'utilisateur incorrect ou inexistante' });
-      }
-      //const passwordMatch = await bcrypt.compare(password, user.password);
-      if (password == user.password) {
-        req.user = user;
-        return res.status(200).json({ message: 'Login réussi' });
-      } else {
-        return res.status(401).json({ message: 'Mot de passe incorrect' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Erreur lors du login' });
+// router.post('/login', async (req, res) => {
+//     const {email, password } = req.body;
+//     try {
+//       const user = await Utilisateur.findOne({email});
+//       if (!user) {
+//         return res.status(404).json({ message: 'utilisateur incorrect ou inexistante' });
+//       }
+//       //const passwordMatch = await bcrypt.compare(password, user.password);
+//       if (password == user.password) {
+//         req.user = user;
+//         console.log("about to print result");
+//         console.log(res);
+//         return res.status(200).json({ message: 'Login réussi' });
+//       } else {
+//         return res.status(401).json({ message: 'Mot de passe incorrect' });
+//       }
+//     } catch (error) {
+//       res.status(500).json({ message: 'Erreur lors du login' });
+//     }
+// });
+
+
+router.post('/login',function(req,res,next)
+    {
+        const email=req.params.email;
+        const mdp= req.params.password;
+        //const typeUser = req.params.typeUser; // Le typeUser tsy maila precisena tsony
+        Utilisateur.find({email:req.body.email,password:req.body.password})
+        .exec().then(result => {
+            console.log(result);
+            if(result) 
+            {
+                res.status(200).json({message : 'Connexion réussie',values:result,status:'success'});
+            }
+            else 
+            {
+                res.status(404).json({message : 'Identifiant inéxistant/Login ou mot de passe incorrect',values:null,status:'failure'});
+            }
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json(
+                {
+                    error: err
+                }
+            );
+        });
+
+        
     }
-});
+);
 
 
 //Deconnexion utilisateur
