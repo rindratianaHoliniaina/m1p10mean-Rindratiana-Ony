@@ -14,7 +14,7 @@ const router= express.Router();
 router.get('/getAllElement', async (req, res) => {
     try {
       const element = await Element.find({}); 
-      res.json(element);
+      res.status(200).json({ message: 'Success',values:element});
     } catch (err) {
       res.status(500).json({ message: 'Erreur lors de la récupération' });
     }
@@ -30,7 +30,7 @@ router.get('/listeElementParProvince/:idProv',function(req,res,next)
         console.log("params"+req.params.idProv)
       Element.find({provinceId:req.params.idProv}).exec().then(result => {
             console.log(result);
-            res.status(200).json(result);
+            res.status(200).json({ message: 'Success',values:result});
         }).catch(err => {
             console.log(err);
             res.status(500).json(
@@ -48,7 +48,7 @@ router.get('/listeFicheParElement/:nomRecherche',function(req,res,next)
     {
       Element.find({nomElement:req.params.nomRecherche} , 'nomElement minDescription maxDescription' ).exec().then(result => {
             console.log(result);
-            res.status(200).json(result);
+            res.status(200).json({ message: 'Success',values:result});
         }).catch(err => {
             console.log(err);
             res.status(500).json(
