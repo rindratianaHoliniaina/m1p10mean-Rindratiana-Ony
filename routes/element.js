@@ -54,7 +54,7 @@ router.get('/listeFicheParElement/:nomRecherche',function(req,res,next)
         // tsy azo asiana anle filtre etsy amin 2è param .find
       Element.find({nomElement:{ $regex: regex }} ).exec().then(result => {
             console.log(result);
-            res.status(200).json(result);
+            res.status(200).json({ message: 'Success',values:result});
         }).catch(err => {
             console.log(err);
             res.status(500).json(
