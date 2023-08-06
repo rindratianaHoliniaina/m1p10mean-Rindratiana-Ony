@@ -30,7 +30,7 @@ router.get('/listeElementParProvince/:idProv',function(req,res,next)
         console.log("params"+req.params.idProv)
       Element.find({provinceId:req.params.idProv}).exec().then(result => {
             console.log(result);
-            res.status(200).json({ message: 'Success',values:result});
+            res.status(200).json({ message: 'Success',values:element});
         }).catch(err => {
             console.log(err);
             res.status(500).json(
@@ -45,10 +45,16 @@ router.get('/listeElementParProvince/:idProv',function(req,res,next)
 //Avoir les fiche de chaque element touristique
 //http://localhost:3000/element/listeFicheParElement/ParcnationaldeMontagnedAmbre
 router.get('/listeFicheParElement/:nomRecherche',function(req,res,next)
-    {
-      Element.find({nomElement:req.params.nomRecherche} , 'nomElement minDescription maxDescription' ).exec().then(result => {
+
+    { 
+        // Utilisation d'une expression régulière pour rechercher le mot spécifié
+    const regex = new RegExp(req.params.nomRecherche, 'i');
+
+    //Element.find({ nomElement: { $regex: regex } })
+        // tsy azo asiana anle filtre etsy amin 2è param .find
+      Element.find({nomElement:{ $regex: regex }} ).exec().then(result => {
             console.log(result);
-            res.status(200).json({ message: 'Success',values:result});
+            res.status(200).json(result);
         }).catch(err => {
             console.log(err);
             res.status(500).json(
