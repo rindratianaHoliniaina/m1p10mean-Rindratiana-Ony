@@ -17,8 +17,12 @@ const elementSchema= mongoose.Schema(
     {
         _id: mongoose.Schema.Types.ObjectId,
         nomElement: String,
-        minDescription: String,
-        maxDescription: String,
+        minDescriptionFr: String,
+        maxDescriptionFr: String,
+        minDescriptionEn: String,
+        maxDescriptionEn: String,
+        minDescriptionMg: String,
+        maxDescriptionMg: String,
         categorieId : String,
         provinceId :  String
     }
