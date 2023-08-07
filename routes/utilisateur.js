@@ -29,7 +29,7 @@ router.post('/register',function(req,res,next)
             }
         );
         user.save().then(result => {
-            res.status(201).json([user]);
+            res.status(201).json({message:"Inscription réussie",values:user,status:"success"});
         }).catch(err => err => {
             console.log(err);
             res.status(500).json(
